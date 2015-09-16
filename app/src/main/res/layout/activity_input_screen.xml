@@ -1,0 +1,128 @@
+<LinearLayout
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20dp"
+    android:background="@color/blue_background"
+    android:orientation="vertical"
+    tools:context="com.michielboswijk.madlibs.InputScreen"
+    android:weightSum="1">
+
+    <TextView
+        android:text="@string/input_intro"
+        android:id="@+id/input_intro"
+        android:textSize="22sp"
+        android:gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/category"
+            android:textSize="22sp"
+            android:layout_marginTop="20dp" />
+
+        <TextView
+            android:id="@+id/words_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/words_left"
+            android:textSize="17sp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/word_input"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginTop="10dp"
+            android:inputType="text"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="@string/enter_word"
+            android:onClick="enterWord"/>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:textSize="20sp"
+        android:text="@string/select_story"/>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/group"
+            android:layout_marginTop="20dp">
+
+            <RadioButton
+                android:id="@+id/first_radio_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/short_story"
+                android:checked="true"/>
+
+            <RadioButton
+                android:id="@+id/second_radio_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tarzan_story"/>
+
+            <RadioButton
+                android:id="@+id/third_radio_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/uni_story"/>
+
+            <RadioButton
+                android:id="@+id/fourth_radio_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/clothes_story"/>
+
+            <RadioButton
+                android:id="@+id/fifth_radio_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/dance_story"/>
+        </RadioGroup>
+
+        <ImageView
+            android:id="@+id/refresh"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="70dp"
+            android:layout_marginStart="70dp"
+            android:src="@drawable/refresh"
+            android:onClick="selectStory"/>
+
+    </LinearLayout>
+</LinearLayout>

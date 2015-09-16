@@ -1,0 +1,48 @@
+<resources>
+
+    <string name="app_name">Mad Libs</string>
+    <string name="title_activity_input_screen">Input</string>
+    <string name="title_activity_story_screen">Story</string>
+
+    <string name="introduction">Welcome!</string>
+
+    <string name="play_descr">Icon for launching the game</string>
+    <string name="info_descr">Icon for displaying a how to play</string>
+    <string name="logo_descr">Main logo of the game</string>
+    <string name="button_descr">Button for refreshing story selection</string>
+    <string name="save_descr">Icon for saving the game</string>
+    <string name="load_descr">Icon for loading the game</string>
+
+    <string name="input_intro">Please enter a word from the right category below:</string>
+    <string name="category">Category: </string>
+    <string name="words_left">Word(s) left: </string>
+    <string name="enter_word">Enter word</string>
+    <string name="select_story">Select story template:</string>
+
+    <string name="short_story">Short</string>
+    <string name="tarzan_story">Tarzan</string>
+    <string name="uni_story">University</string>
+    <string name="clothes_story">Clothes</string>
+    <string name="dance_story">Dance</string>
+
+    <string name="story_intro">Your Story: </string>
+    <string name="story_template">Such story, many jokes, wow</string>
+
+    <string name="input_message">Please enter a word without special characters</string>
+    <string name="save_message">Story Saved</string>
+    <string name="load_message">Loaded Previously Saved Story</string>
+    <string name="new_game_message">Started New Game</string>
+    <string name="got_it">Got it</string>
+    <string name="htp_title">How to Play</string>
+    <string name="htp"> First you are prompted to input words from a specific category.
+                        These categories can be lexical categories (like \'adjective\' or \'verb\'),
+                        but can also be more broad categories (like \'name\' or \'body part\'). These categories
+                        represent placeholders in a piece of text.\n\nYou can select one of the five pieces of text
+                        on the input screen. You then input a word (text only, so write numbers in text!) until you
+                        have filled all placeholders. After that you are presented with your funny story!\n\nWhen the story is done,
+                        you can either load the previously saved text, or save this new text. You can also start a new game.\n\nTip: Play with two players (one inputs and one reads) for a more surprising story!</string>
+    <string name="no_story_message">No Previous Story in Memory</string>
+
+    <color name="blue_background">#CFE2E8</color>
+
+</resources>

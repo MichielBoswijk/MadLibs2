@@ -1,0 +1,49 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20dp"
+    android:background="#CFE2E8"
+    tools:context=".IntroScreen">
+
+    <ImageView
+        android:contentDescription="@string/logo_descr"
+        android:layout_width="wrap_content"
+        android:layout_height="200dp"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/libs_logo"
+        android:id="@+id/imageView" />
+
+    <TextView
+        android:layout_marginTop="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/introduction"
+        android:textSize="22sp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/imageView" />
+
+    <ImageView
+        android:contentDescription="@string/info_descr"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="50dp"
+        android:layout_marginStart="50dp"
+        android:src="@drawable/info"
+        android:onClick="showInformation"/>
+    
+    <ImageView
+        android:contentDescription="@string/play_descr"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="50dp"
+        android:layout_marginEnd="50dp"
+        android:src="@drawable/play"
+        android:onClick="playGame"/>
+
+</RelativeLayout>
