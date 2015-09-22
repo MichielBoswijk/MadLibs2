@@ -92,7 +92,7 @@ public class StoryScreen extends Activity {
     public void newGame(View view) {
 
         Toast.makeText(this, R.string.new_game_message, Toast.LENGTH_LONG).show();
-        Intent newGame = new Intent(this, InputScreen.class);
+        Intent newGame = new Intent(this, StorySelection.class);
         startActivity(newGame);
     }
 }

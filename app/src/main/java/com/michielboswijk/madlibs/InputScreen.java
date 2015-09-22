@@ -2,14 +2,16 @@
 package com.michielboswijk.madlibs;
 
 /* Necessary imports. */
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.speech.RecognizerIntent;
+import android.speech.tts.TextToSpeech;
 import android.widget.EditText;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.app.Activity;
 import android.widget.Toast;
 import java.io.InputStream;
+import java.util.ArrayList;
 import android.os.Bundle;
 import android.view.View;
 
@@ -18,11 +20,18 @@ public class InputScreen extends Activity {
 
     /* Declare private class variables. */
     private Story parser;
-    private RadioGroup stories;
     private InputStream stream;
     private TextView categoryView;
     private TextView wordLeftView;
     private EditText textInput;
+    private TextToSpeech tts;
+    private boolean ttsReady;
+
+
+    //**********************************************************************************************
+    // Override methods.
+    //**********************************************************************************************
+
 
     /* Method called when input screen is started. */
     @Override
@@ -32,19 +41,24 @@ public class InputScreen extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_input_screen);
 
-        /* Initialize widgets. */
+        /* Initialize widgets and variables. */
         categoryView = (TextView) findViewById(R.id.category);
         wordLeftView = (TextView) findViewById(R.id.words_left);
         textInput = (EditText) findViewById(R.id.word_input);
-        stories = (RadioGroup) findViewById(R.id.group);
+        ttsReady = false;
 
-        /* Initialize InputStream and make first story default. */
-        stream = this.getResources().openRawResource(R.raw.madlib0_simple);
-        RadioButton firstButton = (RadioButton) findViewById(R.id.first_radio_button);
-        stories.check(firstButton.getId());
+        /* Initialize text to speech object. */
+        tts = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                ttsReady = true;
+            }
+        });
 
-        /* Send inputStream to parser. */
-        parseStream(stream);
+        /* Receive data from previous activity to select story. */
+        Bundle extras = getIntent().getExtras();
+        int position = extras.getInt("position");
+        selectStory(position);
     }
 
     /* Method called before pausing the activity.
@@ -56,9 +70,7 @@ public class InputScreen extends Activity {
         /* Call constructor of superclass. */
         super.onSaveInstanceState(outState);
 
-        /* Send checked button id, and parser object to be restored. */
-        int sentId = stories.getCheckedRadioButtonId();
-        outState.putInt("buttonId", sentId);
+        /* Send parser object to be restored. */
         outState.putSerializable("parser", parser);
     }
 
@@ -71,21 +83,33 @@ public class InputScreen extends Activity {
         /* Call constructor of superclass. */
         super.onRestoreInstanceState(inState);
 
-        /* Retrieve checked button id, and parser object. */
+        /* Retrieve parser object. */
         parser = (Story) inState.getSerializable("parser");
-        int receivedId = inState.getInt("buttonId");
 
-        /* Recheck radio button, and display same info as before activity pause. */
-        resetViews();
-        stories.check(receivedId);
-        categoryView.append(" " + parser.getNextPlaceholder());
-        wordLeftView.append(" " + parser.getPlaceholderRemainingCount());
+        /* Update print information. */
+        updateInfo();
     }
+
+    /* Method for receiving and processing spoken data. */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        super.onActivityResult(requestCode, resultCode, data);
+
+        /* Receive and process spoken text. */
+        ArrayList<String> list = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+        String spokenText = list.get(0);
+        processInput(spokenText);
+        Toast.makeText(this, "You said: " + spokenText, Toast.LENGTH_LONG).show();
+    }
+
+    //**********************************************************************************************
+    // Helper methods.
+    //**********************************************************************************************
+
 
     /* Method called when a word is entered for placeholder. */
     public void enterWord(View view) {
-
-        int remaining;
 
         /* Get input and clear input field. */
         String input = String.valueOf(textInput.getText());
@@ -95,69 +119,87 @@ public class InputScreen extends Activity {
         if (!input.matches("[a-zA-Z\\s]+")) {
             Toast.makeText(this, R.string.input_message, Toast.LENGTH_LONG).show();
         } else {
-            /* Pass input to parser. */
-            parser.fillInPlaceholder(input);
+            /* Pass input to method for processing input. */
+            processInput(input);
         }
+    }
 
-        /* Get number of remaining placeholders. */
-        remaining = parser.getPlaceholderRemainingCount();
+    /* Method for handling the spoken/written input of the user. */
+    public void processInput(String input) {
+
+        /* Send input to parser. */
+        parser.fillInPlaceholder(input);
 
         /* Proceed to next screen when all placeholders are filled. */
-        if (remaining == 0) {
+        if (parser.getPlaceholderRemainingCount() == 0) {
 
             final int result = 1;
-            Intent thirdScreen = new Intent(this, StoryScreen.class);
-            thirdScreen.putExtra("parser", parser); // Send parser as well (contains story)
-            startActivityForResult(thirdScreen, result);
+            Intent fourthScreen = new Intent(this, StoryScreen.class);
+            fourthScreen.putExtra("parser", parser); // Send parser as well (contains story)
+            startActivityForResult(fourthScreen, result);
+            finish();
+        /* If tts is ready, prompt the required word type through spoken text. */
+        } else if (ttsReady) {
+            tts.speak("Please enter a " + parser.getNextPlaceholder().toLowerCase(), TextToSpeech.QUEUE_FLUSH, null);
         }
 
         /* Update category and words left- values. */
-        resetViews();
-        categoryView.append(" " + parser.getNextPlaceholder());
-        wordLeftView.append(" " + remaining);
+        updateInfo();
     }
 
-    /* Method called when refresh button is pressed. */
-    public void selectStory(View view) {
+    /* Method for selecting correct story template. */
+    public void selectStory(int pos) {
 
-        resetViews();
-
-        /* Show which button is selected. */
-        RadioButton selected = (RadioButton) findViewById(stories.getCheckedRadioButtonId());
-        CharSequence buttonText = selected.getText();
-        Toast.makeText(InputScreen.this, "You selected a " + buttonText + " story", Toast.LENGTH_SHORT).show();
-
-        /* Load selected text template and pass it to method parseStream. */
-        if (buttonText.toString().equals("Tarzan")) {
-            stream = this.getResources().openRawResource(R.raw.madlib1_tarzan);
-        } else if (buttonText.toString().equals("University")) {
-            stream = this.getResources().openRawResource(R.raw.madlib2_university);
-        } else if (buttonText.toString().equals("Clothes")) {
-            stream = this.getResources().openRawResource(R.raw.madlib3_clothes);
-        } else if (buttonText.toString().equals("Dance")) {
-            stream = this.getResources().openRawResource(R.raw.madlib4_dance);
-        } else {
-            stream = this.getResources().openRawResource(R.raw.madlib0_simple);
+        /* Select chosen template. */
+        switch (pos) {
+            case 0:
+                stream = this.getResources().openRawResource(R.raw.madlib0_simple); break;
+            case 1:
+                stream = this.getResources().openRawResource(R.raw.madlib1_tarzan); break;
+            case 2:
+                stream = this.getResources().openRawResource(R.raw.madlib2_university); break;
+            case 3:
+                stream = this.getResources().openRawResource(R.raw.madlib3_clothes); break;
+            case 4:
+                stream = this.getResources().openRawResource(R.raw.madlib4_dance); break;
         }
-        parseStream(stream);
-    }
-
-    /* Method for passing stream to story. */
-    public void parseStream(InputStream stream) {
-
         /* Create new story with selected stream and show placeholder information. */
         try {
             parser = new Story(stream);
-            categoryView.append(" " + parser.getNextPlaceholder());
-            wordLeftView.append(" " + parser.getPlaceholderCount());
+            updateInfo();
         } catch (Exception e) {
             Toast.makeText(this, "Please try a different story", Toast.LENGTH_LONG).show();
         }
     }
 
-    /* Method for resetting the placeholder information. */
-    public void resetViews() {
+    /* Method for showing placeholder information. */
+    public void updateInfo() {
         categoryView.setText(R.string.category);
         wordLeftView.setText(R.string.words_left);
+        categoryView.append(" " + parser.getNextPlaceholder().toLowerCase());
+        wordLeftView.append(" " + parser.getPlaceholderRemainingCount());
+    }
+
+    /* Method for re-selecting story, takes user back to selection screen. */
+    public void changeStory(View view) {
+        Intent fourthScreen = new Intent(this, StorySelection.class);
+        startActivity(fourthScreen);
+    }
+
+    /* Method for starting text to speech functionality. */
+    public void speechToText(View view) {
+
+        final int result = 1;
+
+        /* Initialize intent for speech to text handling. */
+        Intent convertSpeech = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        convertSpeech.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, "en-US");
+
+        /* Attempt to start the speech intent (works if stt is supported). */
+        try {
+            startActivityForResult(convertSpeech, result);
+        } catch (ActivityNotFoundException e) {
+            Toast.makeText(this, "Speech to text not supported", Toast.LENGTH_LONG).show();
+        }
     }
 }

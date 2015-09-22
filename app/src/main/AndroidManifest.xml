@@ -24,6 +24,10 @@
             android:name=".StoryScreen"
             android:label="@string/title_activity_story_screen" >
         </activity>
+        <activity
+            android:name=".StorySelection"
+            android:label="@string/title_activity_story_selection" >
+        </activity>
     </application>
 
 </manifest>

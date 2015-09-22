@@ -49,13 +49,21 @@
 
         <EditText
             android:id="@+id/word_input"
-            android:layout_width="0dp"
+            android:layout_width="130dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginTop="10dp"
             android:inputType="text"/>
 
         <Button
+            android:id="@+id/speak_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Talk"
+            android:layout_marginTop="5dp"
+            android:onClick="speechToText"/>
+
+        <Button
+            android:id="@+id/enter_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
@@ -71,58 +79,11 @@
         android:textSize="20sp"
         android:text="@string/select_story"/>
 
-
-    <LinearLayout
-        android:layout_width="match_parent"
+    <Button
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <RadioGroup
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/group"
-            android:layout_marginTop="20dp">
-
-            <RadioButton
-                android:id="@+id/first_radio_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/short_story"
-                android:checked="true"/>
-
-            <RadioButton
-                android:id="@+id/second_radio_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/tarzan_story"/>
-
-            <RadioButton
-                android:id="@+id/third_radio_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/uni_story"/>
-
-            <RadioButton
-                android:id="@+id/fourth_radio_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/clothes_story"/>
-
-            <RadioButton
-                android:id="@+id/fifth_radio_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/dance_story"/>
-        </RadioGroup>
-
-        <ImageView
-            android:id="@+id/refresh"
-            android:layout_width="70dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="70dp"
-            android:layout_marginStart="70dp"
-            android:src="@drawable/refresh"
-            android:onClick="selectStory"/>
-
-    </LinearLayout>
+        android:text="@string/change_story_button"
+        android:onClick="changeStory"
+        android:layout_gravity="center"
+        android:layout_marginTop="30dp"/>
 </LinearLayout>

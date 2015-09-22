@@ -48,7 +48,7 @@ public class IntroScreen extends Activity {
     /* Method starting a new game; called when play icon is pressed.  */
     public void playGame(View view) {
 
-        Intent secondScreen = new Intent(this, InputScreen.class);
+        Intent secondScreen = new Intent(this, StorySelection.class);
         startActivity(secondScreen);
     }
 }

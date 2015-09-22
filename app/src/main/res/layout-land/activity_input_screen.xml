@@ -50,12 +50,13 @@
             <EditText
                 android:id="@+id/word_input"
                 android:layout_width="0dp"
+                android:layout_weight="1.0"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_marginTop="10dp"
                 android:inputType="text"/>
 
             <Button
+                android:id="@+id/enter_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
@@ -80,62 +81,22 @@
             android:textSize="20sp"
             android:text="@string/select_story"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <Button
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:text="@string/change_story_button"
+            android:onClick="changeStory"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"/>
 
-            <RadioGroup
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/group"
-                android:layout_marginTop="20dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginStart="20dp">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/talk_button"
+            android:onClick="speechToText"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"/>
 
-                <RadioButton
-                    android:id="@+id/first_radio_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/short_story"
-                    android:checked="true"/>
-
-                <RadioButton
-                    android:id="@+id/second_radio_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/tarzan_story"/>
-
-                <RadioButton
-                    android:id="@+id/third_radio_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/uni_story"/>
-
-                <RadioButton
-                    android:id="@id/fourth_radio_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/clothes_story"/>
-
-                <RadioButton
-                    android:id="@id/fifth_radio_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/dance_story"/>
-            </RadioGroup>
-
-            <ImageView
-                android:contentDescription="@string/button_descr"
-                android:id="@+id/refresh"
-                android:layout_width="70dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="50dp"
-                android:layout_marginStart="50dp"
-                android:src="@drawable/refresh"
-                android:onClick="selectStory"/>
-
-        </LinearLayout>
     </LinearLayout>
 </LinearLayout>
 
