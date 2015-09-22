@@ -20,6 +20,10 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_6
     }
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/<MadLibs2>'
+    }
 }
 
 dependencies {
