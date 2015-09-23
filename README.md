@@ -11,7 +11,7 @@ Builds on previous implementation of Mad Libs game.
 
 ### Changes
 
- * Story selection in seperate activity with ListView.
+ * Story selection in separate activity with ListView.
  * TTS (Text To Speech) prompts the user to enter specific word type.
  * STT (Speech To Text) possibility for entering the prompted word type.
  
